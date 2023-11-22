@@ -73,6 +73,11 @@ export const getXtensioWebpackConfig = async (
   const isPopup = fileExists(mPaths.popup)
   const isBackground = fileExists(mPaths.background)
 
+  const formattedAppName = appName
+    .split("-")
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join(" ")
+
   const contentSecurity = isDev
     ? {
         content_security_policy: {
@@ -369,7 +374,8 @@ export const getXtensioWebpackConfig = async (
         (file) =>
           new HtmlWebpackPlugin({
             chunks: [file.filename],
-            filename: `pages/${file.filename}.html`
+            filename: `pages/${file.filename}.html`,
+            title: formattedAppName
           })
       ),
       new MiniCssExtractPlugin({
